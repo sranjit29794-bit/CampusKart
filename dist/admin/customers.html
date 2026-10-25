@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Customers - CampusKart Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body style="background:#f8f9fa;">
+
+<div class="admin-shell">
+    <aside class="admin-sidebar">
+        <div style="display:flex; align-items:center; gap:0.6rem; padding-bottom:1.5rem; border-bottom:1px solid #262626;">
+            <span class="logo-icon" style="background:var(--accent-red); width:28px; height:28px;">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M16 6V4a4 4 0 0 0-8 0v2H3v16h18V6h-5zm-6-2a2 2 0 0 1 4 0v2h-4V4zm9 16H5V8h14v12z"/></svg>
+            </span>
+            <span style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">AdminPortal</span>
+        </div>
+        <ul class="admin-nav">
+            <li><a href="index.html">📊 Dashboard</a></li>
+            <li><a href="products.html">📦 Products</a></li>
+            <li><a href="categories.html">🏷️ Categories</a></li>
+            <li><a href="orders.html">🛒 Orders</a></li>
+            <li><a href="customers.html" class="active">👥 Customers</a></li>
+            <li style="margin-top:2rem; border-top:1px solid #262626; padding-top:1rem;">
+                <a href="../shop.html" target="_blank">🌐 Live Storefront &rarr;</a>
+            </li>
+            <li><a href="../logout.html" style="color:#ef4444;">🚪 Sign Out</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-main">
+        <header style="margin-bottom:2rem;">
+            <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:700; color:#111;">Registered Customers</h1>
+            <p style="color:#666; font-size:0.92rem;">Verified student accounts, activity metrics, and lifetime transaction values.</p>
+        </header>
+
+        <div style="background:#fff; border:1px solid var(--border-light); border-radius:var(--radius-sm); overflow:hidden;">
+            <table class="cart-table" style="font-size:0.9rem;">
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Registered Date</th>
+                        <th style="text-align:center;">Total Orders</th>
+                        <th style="text-align:right;">Lifetime Spend</th>
+                    </tr>
+                </thead>
+                <tbody>
+                                                                        <tr>
+                                <td>
+                                    <strong style="color:#111; font-size:0.98rem;">Rohan Sharma</strong>
+                                    <div style="font-size:0.75rem; color:#888;">ID: #USER-2</div>
+                                </td>
+                                <td>
+                                    <code>rohan@college.edu</code>
+                                </td>
+                                <td>
+                                    +91 9812345678                                </td>
+                                <td style="color:#666; font-size:0.85rem;">
+                                    25 Oct 2026                                </td>
+                                <td style="text-align:center;">
+                                    <span style="font-weight:700; background:var(--bg-subtle); padding:0.2rem 0.6rem; border-radius:10px;">
+                                        3                                    </span>
+                                </td>
+                                <td style="text-align:right; font-family:var(--font-display); font-weight:700; color:#111;">
+                                    ₹3,145.00                                </td>
+                            </tr>
+                                                            </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

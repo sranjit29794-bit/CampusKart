@@ -1,0 +1,176 @@
+<?php
+/**
+ * CampusKart - Single Order Details (Customer View)
+ */
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/includes/functions.php';
+require_once __DIR__ . '/includes/auth.php';
+
+require_auth('orders.php');
+
+$pdo = get_db_connection();
+$user = current_user();
+$userId = (int)$user['id'];
+$orderId = isset($_GET['id']) && is_numeric($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($orderId <= 0) {
+    set_flash('error', 'Invalid order ID specified.');
+    redirect('orders.php');
+}
+
+// Fetch order
+$stmt = $pdo->prepare("SELECT * FROM orders WHERE id = ?");
+$stmt->execute([$orderId]);
+$order = $stmt->fetch();
+
+// Security Guard: Prevent IDOR (insecure direct object reference)
+if (!$order || ($order['user_id'] != $userId && !is_admin())) {
+    http_response_code(403);
+    set_flash('error', 'You are not authorized to view this order.');
+    redirect('orders.php');
+}
+
+// Fetch order items
+$itemStmt = $pdo->prepare("
+    SELECT oi.*, p.image
+    FROM order_items oi
+    LEFT JOIN products p ON oi.product_id = p.id
+    WHERE oi.order_id = ?
+");
+$itemStmt->execute([$orderId]);
+$items = $itemStmt->fetchAll();
+
+$pageTitle = 'Order ' . $order['order_number'] . ' - CampusKart';
+require_once __DIR__ . '/includes/header.php';
+?>
+
+<section class="page-hero-banner">
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="index.php">Home</a>
+            <span>/</span>
+            <a href="orders.php">My Orders</a>
+            <span>/</span>
+            <strong><?= sanitize($order['order_number']) ?></strong>
+        </nav>
+        <h1 class="page-title">Order Details</h1>
+    </div>
+</section>
+
+<main class="container" style="padding: 3.5rem 1.5rem 6rem; max-width: 900px;">
+    <!-- Order Status Header Card -->
+    <div style="background:#fff; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:2rem; margin-bottom:2rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+        <div>
+            <span style="font-size:0.8rem; text-transform:uppercase; color:#888; font-weight:700;">Order Reference</span>
+            <h2 style="font-family:var(--font-display); font-size:1.6rem; color:#111; margin:0.25rem 0;"><?= sanitize($order['order_number']) ?></h2>
+            <div style="font-size:0.85rem; color:#666;">Placed on <?= date('d M Y, h:i A', strtotime($order['created_at'])) ?></div>
+        </div>
+
+        <div>
+            <?php
+            $statusStyle = match(strtolower($order['status'])) {
+                'delivered'  => 'background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0;',
+                'processing' => 'background:#eff6ff; color:#1e40af; border:1px solid #bfdbfe;',
+                'shipped'    => 'background:#f5f3ff; color:#5b21b6; border:1px solid #ddd6fe;',
+                'cancelled'  => 'background:#fef2f2; color:#991b1b; border:1px solid #fecaca;',
+                default      => 'background:#fffbeb; color:#92400e; border:1px solid #fde68a;'
+            };
+            ?>
+            <span style="display:inline-block; padding:0.5rem 1.25rem; border-radius:20px; font-weight:700; font-size:0.9rem; <?= $statusStyle ?>">
+                STATUS: <?= strtoupper(sanitize($order['status'])) ?>
+            </span>
+        </div>
+    </div>
+
+    <!-- Items Breakdown -->
+    <div style="background:#fff; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:2rem; margin-bottom:2rem;">
+        <h3 style="font-family:var(--font-display); font-size:1.25rem; margin-bottom:1.5rem;">Ordered Products</h3>
+        
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Unit Price</th>
+                    <th style="text-align:center;">Qty</th>
+                    <th style="text-align:right;">Line Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($items as $item): ?>
+                    <tr>
+                        <td>
+                            <div class="cart-product-cell">
+                                <?php if (!empty($item['image'])): ?>
+                                    <div class="cart-product-thumb">
+                                        <img src="<?= sanitize($item['image']) ?>" alt="">
+                                    </div>
+                                <?php endif; ?>
+                                <div>
+                                    <strong style="font-size:0.98rem; color:#111;"><?= sanitize($item['product_name']) ?></strong>
+                                    <?php if (!empty($item['product_id'])): ?>
+                                        <div style="font-size:0.75rem; margin-top:0.2rem;">
+                                            <a href="product.php?id=<?= $item['product_id'] ?>" style="color:var(--accent-red);">View Current Listing &rarr;</a>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </td>
+                        <td><?= format_price((float)$item['unit_price']) ?></td>
+                        <td style="text-align:center; font-weight:600;"><?= (int)$item['quantity'] ?></td>
+                        <td style="text-align:right; font-family:var(--font-display); font-weight:700;">
+                            <?= format_price((float)$item['subtotal']) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <!-- Totals Breakdown -->
+        <div style="margin-top:2rem; max-width:320px; margin-left:auto;">
+            <div class="summary-row">
+                <span>Items Subtotal:</span>
+                <span><?= format_price((float)$order['subtotal']) ?></span>
+            </div>
+            <div class="summary-row">
+                <span>Campus Delivery:</span>
+                <span><?= (float)$order['delivery_charge'] == 0.00 ? '<strong style="color:#10b981;">FREE</strong>' : format_price((float)$order['delivery_charge']) ?></span>
+            </div>
+            <div class="summary-row total-row">
+                <span>Total Amount:</span>
+                <span><?= format_price((float)$order['total_amount']) ?></span>
+            </div>
+            <div style="font-size:0.85rem; color:#777; margin-top:0.5rem; text-align:right;">
+                Payment: <strong><?= sanitize($order['payment_method']) ?></strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Destination & Contact Card -->
+    <div style="background:var(--bg-subtle); border-radius:var(--radius-sm); padding:1.75rem; display:grid; grid-template-columns:1fr 1fr; gap:2rem;">
+        <div>
+            <h4 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.75rem;">Delivery Destination</h4>
+            <p style="color:#555; line-height:1.6; font-size:0.92rem;">
+                <strong><?= sanitize($order['customer_name']) ?></strong><br>
+                <?= nl2br(sanitize($order['address'])) ?><br>
+                <?= sanitize($order['city']) ?>, <?= sanitize($order['state']) ?> - <?= sanitize($order['pincode']) ?>
+            </p>
+        </div>
+        <div>
+            <h4 style="font-family:var(--font-display); font-size:1.05rem; margin-bottom:0.75rem;">Contact Information</h4>
+            <p style="color:#555; line-height:1.6; font-size:0.92rem;">
+                <strong>Phone:</strong> <?= sanitize($order['phone']) ?><br>
+                <strong>Email:</strong> <?= sanitize($order['email']) ?><br>
+                <strong>Hostel Dispatch:</strong> 2-Hour Campus Priority
+            </p>
+        </div>
+    </div>
+
+    <div style="margin-top:2rem; text-align:center;">
+        <a href="orders.php" class="btn-dark">&larr; BACK TO MY ORDERS</a>
+    </div>
+</main>
+
+<?php require_once __DIR__ . '/includes/footer.php'; ?>

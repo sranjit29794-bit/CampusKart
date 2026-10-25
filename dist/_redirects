@@ -1,0 +1,11 @@
+/shop            /shop.html            200
+/cart            /cart.html            200
+/checkout        /checkout.html        200
+/login           /login.html           200
+/register        /register.html        200
+/profile         /profile.html         200
+/orders          /orders.html          200
+/about           /about.html           200
+/contact         /contact.html         200
+/admin           /admin/index.html     200
+/*.php           /:splat.html          301

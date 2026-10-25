@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusKart - Student E-Commerce Marketplace</title>
+    <meta name="description" content="CampusKart is the student-focused marketplace for collegiate apparel, sneakers, study stationery, and campus gear.">
+    <!-- Master Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+</head>
+<body>
+
+<!-- Flash Toast Notifications -->
+
+<!-- Header Navigation Bar -->
+<header class="site-header" role="banner">
+    <div class="container header-inner">
+        <!-- Logo -->
+        <a href="index.html" class="site-logo" aria-label="CampusKart Home">
+            <span class="logo-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M16 6V4a4 4 0 0 0-8 0v2H3v16h18V6h-5zm-6-2a2 2 0 0 1 4 0v2h-4V4zm9 16H5V8h14v12z"/></svg>
+            </span>
+            <span>CampusKart</span>
+        </a>
+
+        <!-- Main Navigation (Matches Screenshot 1 & 3) -->
+        <nav class="main-nav" role="navigation" aria-label="Primary Navigation">
+            <a href="index.html" class="nav-link active">HOME</a>
+            <a href="shop.html" class="nav-link ">PRODUCTS</a>
+            <a href="shop.html?category=stationery-tech" class="nav-link">SERVICES</a>
+            <a href="about.html" class="nav-link ">ABOUT US</a>
+            <a href="shop.html?category=apparel" class="nav-link">NEWS</a>
+            <a href="contact.html" class="nav-link ">CONTACT</a>
+        </nav>
+
+        <!-- Right Utility Actions -->
+        <div class="header-actions">
+            <!-- Search Button -->
+            <button type="button" class="action-btn" id="searchTrigger" aria-label="Search Products">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+
+            <!-- User Profile Menu -->
+            <div class="user-menu-wrapper">
+                <a href="login.html" class="action-btn" aria-label="User Account">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <div class="user-dropdown">
+                                            <div class="dropdown-header">
+                            <strong>CampusKart Account</strong>
+                            <span>Student & Staff Sign In</span>
+                        </div>
+                        <a href="login.html" class="dropdown-link">Sign In</a>
+                        <a href="register.html" class="dropdown-link">Register Account</a>
+                        <a href="admin/index.php" class="dropdown-link" style="border-top:1px solid #eee;color:#888;">Admin Portal</a>
+                                    </div>
+            </div>
+
+            <!-- Shopping Bag with Counter Badge -->
+            <a href="cart.html" class="action-btn" aria-label="Shopping Cart (0 items)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span class="cart-badge" id="cartBadge">0</span>
+            </a>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button type="button" class="action-btn mobile-toggle" id="mobileToggle" aria-label="Toggle Navigation">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Search Modal Drawer -->
+<div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="Product Search">
+    <div class="search-modal-box">
+        <form action="shop.html" method="GET" class="search-input-wrap">
+            <input type="text" name="search" id="searchInput" placeholder="Search apparel, sneakers, calculators, bags..." required autocomplete="off">
+            <button type="submit" class="btn-primary">SEARCH</button>
+            <button type="button" class="btn-dark" id="searchClose" aria-label="Close search">✕</button>
+        </form>
+    </div>
+</div>
+
+<!-- Hero Section (Matches Screenshot 1) -->
+<section class="hero-section" aria-label="Hero Showcase">
+    <div class="container hero-grid">
+        <div class="hero-content">
+            <h1 class="hero-title">Brand New<br>Collection</h1>
+            <p class="hero-desc">Discover curated campus apparel, premium streetwear sneakers, laboratory stationery, and daily tech accessories tailored for college student life.</p>
+            
+            <div class="hero-features">
+                <div class="feature-check">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <span>Top Brands</span>
+                </div>
+                <div class="feature-check">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <span>High Quality</span>
+                </div>
+                <div class="feature-check">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <span>Free Delivery</span>
+                </div>
+            </div>
+
+            <a href="shop.html" class="btn-primary" id="heroExploreBtn">EXPLORE SHOP</a>
+        </div>
+
+        <div class="hero-image-wrap">
+            <img src="assets/images/hero-model.jpg" alt="Student wearing modern oversized knit sweater" class="hero-image">
+        </div>
+    </div>
+</section>
+
+<!-- Trust Features Strip (Matches Screenshot 2) -->
+<section class="trust-strip" aria-label="Buyer Benefits">
+    <div class="container trust-grid">
+        <!-- Benefit 1 -->
+        <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                    <circle cx="16" cy="15" r="2"></circle>
+                </svg>
+            </div>
+            <div class="trust-text">
+                <h3>Secure Payment</h3>
+                <p>100% secure payment &amp; COD</p>
+            </div>
+        </div>
+
+        <!-- Benefit 2 -->
+        <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                    <text x="12" y="16" font-size="10" font-weight="bold" text-anchor="middle" stroke="none" fill="#fff">₹</text>
+                </svg>
+            </div>
+            <div class="trust-text">
+                <h3>30 Days Return</h3>
+                <p>If goods have problems</p>
+            </div>
+        </div>
+
+        <!-- Benefit 3 -->
+        <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                </svg>
+            </div>
+            <div class="trust-text">
+                <h3>24/7 Support</h3>
+                <p>Dedicated campus support</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="container" style="padding: 4.5rem 1.5rem 2rem;" aria-label="Featured Products">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem;">
+        <div>
+            <h2 style="font-family:var(--font-display); font-size:2.4rem; font-weight:700; color:#111;">Featured Essentials</h2>
+            <p style="color:#666; font-size:0.95rem;">High-rated items loved by students this academic term</p>
+        </div>
+        <a href="shop.html" style="font-family:var(--font-display); font-weight:700; font-size:0.92rem; color:var(--accent-red); border-bottom:2px solid var(--accent-red);">VIEW ALL PRODUCTS &rarr;</a>
+    </div>
+
+    <div class="products-grid">
+                    <article class="product-card" id="product-card-1">
+                <div class="product-image-box">
+                                            <span class="badge-sale">SALE</span>
+                                        <a href="product.html?id=1" aria-label="View details for Black T-shirt">
+                        <img src="assets/images/black-tshirt.jpg" alt="Black T-shirt" loading="lazy">
+                    </a>
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-title">
+                        <a href="product.html?id=1">Black T-shirt</a>
+                    </h3>
+                    
+                    <div class="product-pricing">
+                        <span class="price-current">₹499.00</span>
+                                                    <span class="price-original">₹799.00</span>
+                                            </div>
+
+                    <div class="rating-stars" aria-label="Rated 4.9 out of 5 stars"><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span></div>
+                    <span class="product-category-tag">T-Shirts &amp; Apparel</span>
+
+                    <form action="cart-action.html" method="POST" style="margin-top:auto;">
+                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="1">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-add-cart">Add to cart</button>
+                    </form>
+                </div>
+            </article>
+                    <article class="product-card" id="product-card-2">
+                <div class="product-image-box">
+                                        <a href="product.html?id=2" aria-label="View details for Brown Cap">
+                        <img src="assets/images/brown-cap.jpg" alt="Brown Cap" loading="lazy">
+                    </a>
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-title">
+                        <a href="product.html?id=2">Brown Cap</a>
+                    </h3>
+                    
+                    <div class="product-pricing">
+                        <span class="price-current">₹349.00</span>
+                                            </div>
+
+                    <div class="rating-stars" aria-label="Rated 4.8 out of 5 stars"><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span></div>
+                    <span class="product-category-tag">Accessories &amp; Caps</span>
+
+                    <form action="cart-action.html" method="POST" style="margin-top:auto;">
+                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="2">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-add-cart">Add to cart</button>
+                    </form>
+                </div>
+            </article>
+                    <article class="product-card" id="product-card-3">
+                <div class="product-image-box">
+                                            <span class="badge-sale">SALE</span>
+                                        <a href="product.html?id=3" aria-label="View details for Color Sneakers">
+                        <img src="assets/images/color-sneakers.jpg" alt="Color Sneakers" loading="lazy">
+                    </a>
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-title">
+                        <a href="product.html?id=3">Color Sneakers</a>
+                    </h3>
+                    
+                    <div class="product-pricing">
+                        <span class="price-current">₹1,299.00</span>
+                                                    <span class="price-original">₹1,899.00</span>
+                                            </div>
+
+                    <div class="rating-stars" aria-label="Rated 4.9 out of 5 stars"><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span></div>
+                    <span class="product-category-tag">Footwear &amp; Sneakers</span>
+
+                    <form action="cart-action.html" method="POST" style="margin-top:auto;">
+                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="3">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-add-cart">Add to cart</button>
+                    </form>
+                </div>
+            </article>
+                    <article class="product-card" id="product-card-5">
+                <div class="product-image-box">
+                                        <a href="product.html?id=5" aria-label="View details for Gray Shoes">
+                        <img src="assets/images/gray-shoes.jpg" alt="Gray Shoes" loading="lazy">
+                    </a>
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-title">
+                        <a href="product.html?id=5">Gray Shoes</a>
+                    </h3>
+                    
+                    <div class="product-pricing">
+                        <span class="price-current">₹999.00</span>
+                                            </div>
+
+                    <div class="rating-stars" aria-label="Rated 4.6 out of 5 stars"><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-half" aria-hidden="true">&#9733;</span></div>
+                    <span class="product-category-tag">Footwear &amp; Sneakers</span>
+
+                    <form action="cart-action.html" method="POST" style="margin-top:auto;">
+                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="5">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-add-cart">Add to cart</button>
+                    </form>
+                </div>
+            </article>
+                    <article class="product-card" id="product-card-6">
+                <div class="product-image-box">
+                                            <span class="badge-sale">SALE</span>
+                                        <a href="product.html?id=6" aria-label="View details for Quartz Watch">
+                        <img src="assets/images/quartz-watch.jpg" alt="Quartz Watch" loading="lazy">
+                    </a>
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-title">
+                        <a href="product.html?id=6">Quartz Watch</a>
+                    </h3>
+                    
+                    <div class="product-pricing">
+                        <span class="price-current">₹799.00</span>
+                                                    <span class="price-original">₹1,299.00</span>
+                                            </div>
+
+                    <div class="rating-stars" aria-label="Rated 5 out of 5 stars"><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span></div>
+                    <span class="product-category-tag">Accessories &amp; Caps</span>
+
+                    <form action="cart-action.html" method="POST" style="margin-top:auto;">
+                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="6">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-add-cart">Add to cart</button>
+                    </form>
+                </div>
+            </article>
+                    <article class="product-card" id="product-card-7">
+                <div class="product-image-box">
+                                            <span class="badge-sale">SALE</span>
+                                        <a href="product.html?id=7" aria-label="View details for Oversized Knit Sweater">
+                        <img src="assets/images/hero-model.jpg" alt="Oversized Knit Sweater" loading="lazy">
+                    </a>
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-title">
+                        <a href="product.html?id=7">Oversized Knit Sweater</a>
+                    </h3>
+                    
+                    <div class="product-pricing">
+                        <span class="price-current">₹1,199.00</span>
+                                                    <span class="price-original">₹1,699.00</span>
+                                            </div>
+
+                    <div class="rating-stars" aria-label="Rated 4.9 out of 5 stars"><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span></div>
+                    <span class="product-category-tag">T-Shirts &amp; Apparel</span>
+
+                    <form action="cart-action.html" method="POST" style="margin-top:auto;">
+                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="7">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-add-cart">Add to cart</button>
+                    </form>
+                </div>
+            </article>
+            </div>
+</section>
+
+<!-- Promotional Campus Banner -->
+<section class="container" style="padding: 2rem 1.5rem 5rem;">
+    <div style="background:var(--bg-dark); color:#fff; border-radius:var(--radius-sm); padding:3.5rem; display:grid; grid-template-columns:1.2fr 0.8fr; align-items:center; gap:2.5rem;">
+        <div>
+            <span style="color:var(--accent-red); font-family:var(--font-display); font-weight:700; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem;">CAMPUS EXCLUSIVE</span>
+            <h2 style="font-family:var(--font-display); font-size:2.6rem; font-weight:700; margin:0.75rem 0 1.25rem; line-height:1.15;">Smart Gear for Lectures, Labs &amp; Hostels</h2>
+            <p style="color:#aaa; font-size:1.02rem; line-height:1.6; margin-bottom:2rem;">Grab scientific calculators, ergonomic wireless peripherals, and rugged water-resistant laptop bags with hostel delivery under 2 hours.</p>
+            <a href="shop.html?category=stationery-tech" class="btn-primary">EXPLORE TECH &amp; STUDY</a>
+        </div>
+        <div style="display:flex; justify-content:center;">
+            <img src="assets/images/backpack.jpg" alt="Campus Pro Backpack" style="max-height:280px; object-fit:contain; filter:drop-shadow(0 15px 25px rgba(0,0,0,0.5)); border-radius:4px;">
+        </div>
+    </div>
+</section>
+
+<!-- Footer Component -->
+<footer class="site-footer" role="contentinfo">
+    <div class="container footer-grid">
+        <!-- Brand Summary -->
+        <div class="footer-brand">
+            <h2>CampusKart</h2>
+            <p>Your premier campus-centric marketplace connecting college students with top-grade apparel, study gear, footwear, and laboratory accessories at honest student prices.</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul class="footer-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.html">All Products</a></li>
+                <li><a href="shop.html?category=apparel">Apparel & T-Shirts</a></li>
+                <li><a href="shop.html?category=footwear">Sneakers & Shoes</a></li>
+                <li><a href="shop.html?category=stationery-tech">Stationery & Tech</a></li>
+            </ul>
+        </div>
+
+        <!-- Student Support -->
+        <div class="footer-col">
+            <h4>Customer Care</h4>
+            <ul class="footer-links">
+                <li><a href="orders.html">Track Order</a></li>
+                <li><a href="cart.html">Shopping Cart</a></li>
+                <li><a href="contact.html">Campus Delivery Info</a></li>
+                <li><a href="about.html">About CampusKart</a></li>
+                <li><a href="admin/index.php">Staff / Admin Login</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact & Hours -->
+        <div class="footer-col">
+            <h4>Campus Hub</h4>
+            <p style="color:#a0a0a5;font-size:0.9rem;line-height:1.6;margin-bottom:0.75rem;">
+                Student Activity Center, Gate 2<br>
+                University Campus Main Road<br>
+                Bangalore, Karnataka 560064
+            </p>
+            <p style="color:#a0a0a5;font-size:0.88rem;">
+                <strong>Support:</strong> support@campuskart.edu<br>
+                <strong>Helpline:</strong> +91 98765 43210
+            </p>
+        </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="container footer-bottom">
+        <div>&copy; 2026 CampusKart Marketplace. Built for Web Technology Laboratory Project.</div>
+        <div>XAMPP / PHP 8 / MySQL / Pure CSS Grid &amp; Flexbox</div>
+    </div>
+</footer>
+
+<!-- Interactive Scripts -->
+<script src="assets/js/script.js"></script>
+</body>
+</html>

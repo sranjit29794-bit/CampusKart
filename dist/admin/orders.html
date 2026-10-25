@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Orders - CampusKart Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body style="background:#f8f9fa;">
+
+
+<div class="admin-shell">
+    <aside class="admin-sidebar">
+        <div style="display:flex; align-items:center; gap:0.6rem; padding-bottom:1.5rem; border-bottom:1px solid #262626;">
+            <span class="logo-icon" style="background:var(--accent-red); width:28px; height:28px;">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M16 6V4a4 4 0 0 0-8 0v2H3v16h18V6h-5zm-6-2a2 2 0 0 1 4 0v2h-4V4zm9 16H5V8h14v12z"/></svg>
+            </span>
+            <span style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">AdminPortal</span>
+        </div>
+        <ul class="admin-nav">
+            <li><a href="index.html">📊 Dashboard</a></li>
+            <li><a href="products.html">📦 Products</a></li>
+            <li><a href="categories.html">🏷️ Categories</a></li>
+            <li><a href="orders.html" class="active">🛒 Orders</a></li>
+            <li><a href="customers.html">👥 Customers</a></li>
+            <li style="margin-top:2rem; border-top:1px solid #262626; padding-top:1rem;">
+                <a href="../shop.html" target="_blank">🌐 Live Storefront &rarr;</a>
+            </li>
+            <li><a href="../logout.html" style="color:#ef4444;">🚪 Sign Out</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-main">
+        <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+            <div>
+                <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:700; color:#111;">Manage Orders</h1>
+                <p style="color:#666; font-size:0.92rem;">Review campus orders, update fulfillment stages, and inspect delivery destinations.</p>
+            </div>
+            
+            <form action="orders.html" method="GET" style="display:flex; gap:0.6rem; align-items:center;">
+                <input type="text" name="search" class="form-control" placeholder="Search order #, customer..." value="" style="padding:0.55rem 0.85rem; font-size:0.88rem; width:220px;">
+                <select name="status" class="form-control" style="padding:0.55rem 0.85rem; font-size:0.88rem; width:150px;">
+                    <option value="">All Statuses</option>
+                    <option value="Pending" >Pending</option>
+                    <option value="Processing" >Processing</option>
+                    <option value="Shipped" >Shipped</option>
+                    <option value="Delivered" >Delivered</option>
+                    <option value="Cancelled" >Cancelled</option>
+                </select>
+                <button type="submit" class="btn-dark" style="padding:0.55rem 1rem; font-size:0.85rem;">Filter</button>
+                            </form>
+        </header>
+
+        <div style="background:#fff; border:1px solid var(--border-light); border-radius:var(--radius-sm); overflow:hidden;">
+            <table class="cart-table" style="font-size:0.9rem;">
+                <thead>
+                    <tr>
+                        <th>Order #</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Total Amount</th>
+                        <th>Current Status</th>
+                        <th>Quick Update</th>
+                        <th style="text-align:right;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                                                                        <tr>
+                                <td>
+                                    <strong style="font-family:var(--font-display); font-size:1rem; color:#111;">
+                                        <a href="order-details.html?id=3">CK-2026-7788F</a>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>Rohan Sharma</strong>
+                                    <div style="font-size:0.75rem; color:#888;">rohan@college.edu</div>
+                                </td>
+                                <td style="font-size:0.85rem; color:#666;">
+                                    25 Oct 2026, 09:13 PM                                </td>
+                                <td>
+                                    1 items
+                                </td>
+                                <td style="font-family:var(--font-display); font-weight:700;">
+                                    ₹998.00                                    <div style="font-size:0.72rem; color:#888; font-weight:normal;">Cash on Delivery</div>
+                                </td>
+                                <td>
+                                                                        <span style="display:inline-block; padding:0.25rem 0.65rem; border-radius:12px; font-weight:700; font-size:0.78rem; background:#fffbeb; color:#92400e;">
+                                        Pending                                    </span>
+                                </td>
+                                <td>
+                                    <form action="orders.html" method="POST" style="display:flex; gap:0.4rem; align-items:center;">
+                                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                                        <input type="hidden" name="action" value="update_status">
+                                        <input type="hidden" name="order_id" value="3">
+                                        <select name="status" onchange="this.form.submit()" style="padding:0.35rem 0.6rem; font-size:0.8rem; border:1px solid #ccc; border-radius:2px; background:#fff;">
+                                            <option value="Pending" selected>Pending</option>
+                                            <option value="Processing" >Processing</option>
+                                            <option value="Shipped" >Shipped</option>
+                                            <option value="Delivered" >Delivered</option>
+                                            <option value="Cancelled" >Cancelled</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td style="text-align:right;">
+                                    <a href="order-details.html?id=3" class="btn-dark" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+                                        View &rarr;
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <strong style="font-family:var(--font-display); font-size:1rem; color:#111;">
+                                        <a href="order-details.html?id=2">CK-2026-8802</a>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>Rohan Sharma</strong>
+                                    <div style="font-size:0.75rem; color:#888;">rohan@college.edu</div>
+                                </td>
+                                <td style="font-size:0.85rem; color:#666;">
+                                    24 Oct 2026, 08:49 PM                                </td>
+                                <td>
+                                    1 items
+                                </td>
+                                <td style="font-family:var(--font-display); font-weight:700;">
+                                    ₹1,299.00                                    <div style="font-size:0.72rem; color:#888; font-weight:normal;">Cash on Delivery</div>
+                                </td>
+                                <td>
+                                                                        <span style="display:inline-block; padding:0.25rem 0.65rem; border-radius:12px; font-weight:700; font-size:0.78rem; background:#eff6ff; color:#1e40af;">
+                                        Processing                                    </span>
+                                </td>
+                                <td>
+                                    <form action="orders.html" method="POST" style="display:flex; gap:0.4rem; align-items:center;">
+                                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                                        <input type="hidden" name="action" value="update_status">
+                                        <input type="hidden" name="order_id" value="2">
+                                        <select name="status" onchange="this.form.submit()" style="padding:0.35rem 0.6rem; font-size:0.8rem; border:1px solid #ccc; border-radius:2px; background:#fff;">
+                                            <option value="Pending" >Pending</option>
+                                            <option value="Processing" selected>Processing</option>
+                                            <option value="Shipped" >Shipped</option>
+                                            <option value="Delivered" >Delivered</option>
+                                            <option value="Cancelled" >Cancelled</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td style="text-align:right;">
+                                    <a href="order-details.html?id=2" class="btn-dark" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+                                        View &rarr;
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <strong style="font-family:var(--font-display); font-size:1rem; color:#111;">
+                                        <a href="order-details.html?id=1">CK-2026-8801</a>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>Rohan Sharma</strong>
+                                    <div style="font-size:0.75rem; color:#888;">rohan@college.edu</div>
+                                </td>
+                                <td style="font-size:0.85rem; color:#666;">
+                                    20 Oct 2026, 08:49 PM                                </td>
+                                <td>
+                                    2 items
+                                </td>
+                                <td style="font-family:var(--font-display); font-weight:700;">
+                                    ₹848.00                                    <div style="font-size:0.72rem; color:#888; font-weight:normal;">Cash on Delivery</div>
+                                </td>
+                                <td>
+                                                                        <span style="display:inline-block; padding:0.25rem 0.65rem; border-radius:12px; font-weight:700; font-size:0.78rem; background:#ecfdf5; color:#065f46;">
+                                        Delivered                                    </span>
+                                </td>
+                                <td>
+                                    <form action="orders.html" method="POST" style="display:flex; gap:0.4rem; align-items:center;">
+                                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                                        <input type="hidden" name="action" value="update_status">
+                                        <input type="hidden" name="order_id" value="1">
+                                        <select name="status" onchange="this.form.submit()" style="padding:0.35rem 0.6rem; font-size:0.8rem; border:1px solid #ccc; border-radius:2px; background:#fff;">
+                                            <option value="Pending" >Pending</option>
+                                            <option value="Processing" >Processing</option>
+                                            <option value="Shipped" >Shipped</option>
+                                            <option value="Delivered" selected>Delivered</option>
+                                            <option value="Cancelled" >Cancelled</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td style="text-align:right;">
+                                    <a href="order-details.html?id=1" class="btn-dark" style="padding:0.35rem 0.75rem; font-size:0.8rem;">
+                                        View &rarr;
+                                    </a>
+                                </td>
+                            </tr>
+                                                            </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script src="../assets/js/script.js"></script>
+</body>
+</html>

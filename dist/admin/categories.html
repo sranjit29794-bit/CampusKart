@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Categories - CampusKart Admin</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body style="background:#f8f9fa;">
+
+
+<div class="admin-shell">
+    <aside class="admin-sidebar">
+        <div style="display:flex; align-items:center; gap:0.6rem; padding-bottom:1.5rem; border-bottom:1px solid #262626;">
+            <span class="logo-icon" style="background:var(--accent-red); width:28px; height:28px;">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M16 6V4a4 4 0 0 0-8 0v2H3v16h18V6h-5zm-6-2a2 2 0 0 1 4 0v2h-4V4zm9 16H5V8h14v12z"/></svg>
+            </span>
+            <span style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">AdminPortal</span>
+        </div>
+        <ul class="admin-nav">
+            <li><a href="index.html">📊 Dashboard</a></li>
+            <li><a href="products.html">📦 Products</a></li>
+            <li><a href="categories.html" class="active">🏷️ Categories</a></li>
+            <li><a href="orders.html">🛒 Orders</a></li>
+            <li><a href="customers.html">👥 Customers</a></li>
+            <li style="margin-top:2rem; border-top:1px solid #262626; padding-top:1rem;">
+                <a href="../shop.html" target="_blank">🌐 Live Storefront &rarr;</a>
+            </li>
+            <li><a href="../logout.html" style="color:#ef4444;">🚪 Sign Out</a></li>
+        </ul>
+    </aside>
+
+    <main class="admin-main">
+        <header style="margin-bottom:2rem;">
+            <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:700; color:#111;">Manage Categories</h1>
+            <p style="color:#666; font-size:0.92rem;">Organize products into campus departments and shopping classifications.</p>
+        </header>
+
+        <div style="display:grid; grid-template-columns:1.3fr 0.7fr; gap:2.5rem; align-items:start;">
+            <!-- Categories Table -->
+            <div style="background:#fff; border:1px solid var(--border-light); border-radius:var(--radius-sm); overflow:hidden;">
+                <table class="cart-table" style="font-size:0.9rem;">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Slug</th>
+                            <th>Products</th>
+                            <th style="text-align:right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                                    <tr>
+                                <td>
+                                    <strong style="color:#111; font-size:0.98rem; display:block;">T-Shirts &amp; Apparel</strong>
+                                    <span style="font-size:0.8rem; color:#777;">Casual t-shirts, oversized campus hoodies, and college wear.</span>
+                                </td>
+                                <td>
+                                    <code>apparel</code>
+                                </td>
+                                <td>
+                                    <span style="background:var(--bg-subtle); padding:0.25rem 0.65rem; border-radius:12px; font-weight:700; font-size:0.8rem;">
+                                        2 items
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <form action="categories.html" method="POST" onsubmit="return confirm('Delete category \'T-Shirts &amp; Apparel\'?');" style="display:inline;">
+                                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="category_id" value="1">
+                                        <button type="submit" class="btn-dark" style="background:#fee2e2; color:#991b1b; padding:0.35rem 0.75rem; font-size:0.8rem;">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <strong style="color:#111; font-size:0.98rem; display:block;">Footwear &amp; Sneakers</strong>
+                                    <span style="font-size:0.8rem; color:#777;">Comfortable sneakers and shoes designed for everyday campus walking.</span>
+                                </td>
+                                <td>
+                                    <code>footwear</code>
+                                </td>
+                                <td>
+                                    <span style="background:var(--bg-subtle); padding:0.25rem 0.65rem; border-radius:12px; font-weight:700; font-size:0.8rem;">
+                                        2 items
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <form action="categories.html" method="POST" onsubmit="return confirm('Delete category \'Footwear &amp; Sneakers\'?');" style="display:inline;">
+                                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="category_id" value="2">
+                                        <button type="submit" class="btn-dark" style="background:#fee2e2; color:#991b1b; padding:0.35rem 0.75rem; font-size:0.8rem;">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <strong style="color:#111; font-size:0.98rem; display:block;">Accessories &amp; Caps</strong>
+                                    <span style="font-size:0.8rem; color:#777;">Caps, watches, wallets, and daily student gear.</span>
+                                </td>
+                                <td>
+                                    <code>accessories</code>
+                                </td>
+                                <td>
+                                    <span style="background:var(--bg-subtle); padding:0.25rem 0.65rem; border-radius:12px; font-weight:700; font-size:0.8rem;">
+                                        2 items
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <form action="categories.html" method="POST" onsubmit="return confirm('Delete category \'Accessories &amp; Caps\'?');" style="display:inline;">
+                                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="category_id" value="3">
+                                        <button type="submit" class="btn-dark" style="background:#fee2e2; color:#991b1b; padding:0.35rem 0.75rem; font-size:0.8rem;">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <strong style="color:#111; font-size:0.98rem; display:block;">Bags &amp; Backpacks</strong>
+                                    <span style="font-size:0.8rem; color:#777;">Ergonomic laptop backpacks and stylish student messenger bags.</span>
+                                </td>
+                                <td>
+                                    <code>bags</code>
+                                </td>
+                                <td>
+                                    <span style="background:var(--bg-subtle); padding:0.25rem 0.65rem; border-radius:12px; font-weight:700; font-size:0.8rem;">
+                                        2 items
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <form action="categories.html" method="POST" onsubmit="return confirm('Delete category \'Bags &amp; Backpacks\'?');" style="display:inline;">
+                                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="category_id" value="4">
+                                        <button type="submit" class="btn-dark" style="background:#fee2e2; color:#991b1b; padding:0.35rem 0.75rem; font-size:0.8rem;">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <strong style="color:#111; font-size:0.98rem; display:block;">Stationery &amp; Tech</strong>
+                                    <span style="font-size:0.8rem; color:#777;">Calculators, wireless mice, engineering tools, and study supplies.</span>
+                                </td>
+                                <td>
+                                    <code>stationery-tech</code>
+                                </td>
+                                <td>
+                                    <span style="background:var(--bg-subtle); padding:0.25rem 0.65rem; border-radius:12px; font-weight:700; font-size:0.8rem;">
+                                        2 items
+                                    </span>
+                                </td>
+                                <td style="text-align:right;">
+                                    <form action="categories.html" method="POST" onsubmit="return confirm('Delete category \'Stationery &amp; Tech\'?');" style="display:inline;">
+                                        <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="category_id" value="5">
+                                        <button type="submit" class="btn-dark" style="background:#fee2e2; color:#991b1b; padding:0.35rem 0.75rem; font-size:0.8rem;">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                            </tbody>
+                </table>
+            </div>
+
+            <!-- Create New Category Card -->
+            <div style="background:#fff; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:2rem;">
+                <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700; margin-bottom:1.25rem;">+ Add New Category</h3>
+
+                
+                <form action="categories.html" method="POST">
+                    <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                    <input type="hidden" name="action" value="create">
+
+                    <div class="form-group" style="margin-bottom:1.25rem;">
+                        <label for="name" class="form-label">Category Name *</label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="e.g. Laboratory Coat &amp; Safety" required>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:1.5rem;">
+                        <label for="description" class="form-label">Description (optional)</label>
+                        <textarea name="description" id="description" rows="3" class="form-control" placeholder="Brief summary of department items..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width:100%; padding:0.8rem;">SAVE CATEGORY</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

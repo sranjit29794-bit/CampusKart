@@ -1,0 +1,91 @@
+
+<section class="page-hero-banner">
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <strong>Profile</strong>
+        </nav>
+        <h1 class="page-title">My Account</h1>
+    </div>
+</section>
+
+<main class="container" style="padding: 3.5rem 1.5rem 5rem;">
+    <div style="display:grid; grid-template-columns:300px 1fr; gap:3rem; align-items:start;">
+        <!-- Left: Summary Card -->
+        <div style="background:#fff; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:2rem; text-align:center;">
+            <div style="width:72px; height:72px; background:var(--bg-subtle); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem; font-family:var(--font-display); font-size:1.8rem; font-weight:700; color:var(--text-main);">
+                R            </div>
+            <h2 style="font-family:var(--font-display); font-size:1.35rem; margin-bottom:0.25rem;">Rohan Sharma</h2>
+            <p style="color:#666; font-size:0.88rem; margin-bottom:1.5rem;">rohan@college.edu</p>
+
+            <div style="border-top:1px solid var(--border-light); padding-top:1.25rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem; text-align:center;">
+                <div>
+                    <span style="font-size:0.75rem; text-transform:uppercase; color:#888; font-weight:700;">Orders</span>
+                    <div style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:#111;">3</div>
+                </div>
+                <div>
+                    <span style="font-size:0.75rem; text-transform:uppercase; color:#888; font-weight:700;">Spent</span>
+                    <div style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:#111;">₹3,145.00</div>
+                </div>
+            </div>
+
+            <div style="margin-top:2rem; display:flex; flex-direction:column; gap:0.5rem;">
+                <a href="orders.html" class="btn-dark" style="padding:0.75rem; font-size:0.85rem; width:100%;">VIEW MY ORDERS</a>
+                                <a href="logout.html" style="color:#e53935; font-size:0.85rem; margin-top:0.5rem; font-weight:600;">Sign Out</a>
+            </div>
+        </div>
+
+        <!-- Right: Profile Settings Forms -->
+        <div style="background:#fff; border:1px solid var(--border-light); border-radius:var(--radius-sm); padding:2.5rem;">
+            
+            <h3 style="font-family:var(--font-display); font-size:1.4rem; margin-bottom:1.25rem;">Personal Information</h3>
+            <form action="profile.html" method="POST" style="margin-bottom:3rem;">
+                <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                <input type="hidden" name="action" value="update_profile">
+
+                <div class="form-grid" style="margin-bottom:1.5rem;">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" name="name" id="name" class="form-control" value="Rohan Sharma" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email (Account ID)</label>
+                        <input type="email" id="email" class="form-control" value="rohan@college.edu" disabled style="background:#f9f9f9; cursor:not-allowed;">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="text" name="phone" id="phone" class="form-control" value="+91 9812345678" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Role</label>
+                        <input type="text" class="form-control" value="Customer" disabled style="background:#f9f9f9; text-transform:capitalize;">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary" style="padding:0.75rem 1.75rem;">SAVE CHANGES</button>
+            </form>
+
+            <h3 style="font-family:var(--font-display); font-size:1.4rem; margin-bottom:1.25rem; border-top:1px solid var(--border-light); padding-top:2rem;">Change Password</h3>
+            <form action="profile.html" method="POST">
+                <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                <input type="hidden" name="action" value="change_password">
+
+                <div class="form-group" style="margin-bottom:1.25rem; max-width:400px;">
+                    <label for="current_password" class="form-label">Current Password</label>
+                    <input type="password" name="current_password" id="current_password" class="form-control" required autocomplete="current-password">
+                </div>
+
+                <div class="form-grid" style="margin-bottom:1.5rem;">
+                    <div class="form-group">
+                        <label for="new_password" class="form-label">New Password (Min 6 chars)</label>
+                        <input type="password" name="new_password" id="new_password" class="form-control" required autocomplete="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password" class="form-label">Confirm New Password</label>
+                        <input type="password" name="confirm_password" id="confirm_password" class="form-control" required autocomplete="new-password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-dark" style="padding:0.75rem 1.75rem;">UPDATE PASSWORD</button>
+            </form>
+        </div>
+    </div>
+</main>
+

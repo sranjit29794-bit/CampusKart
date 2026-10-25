@@ -1,0 +1,17 @@
+# Environment & Sensitive configs
+.env
+.env.*
+config/config.php
+
+# SQLite local databases
+database/*.sqlite
+database/*.sqlite-journal
+
+# Logs, OS & Editor artifacts
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.netlify/
+node_modules/

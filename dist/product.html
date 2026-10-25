@@ -1,0 +1,100 @@
+
+<!-- Breadcrumbs -->
+<div style="background:#f5f5f7; border-bottom:1px solid var(--border-light); padding:1rem 0;">
+    <div class="container">
+        <nav class="breadcrumbs" style="margin:0;" aria-label="Breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="shop.html">Products</a>
+            <span>/</span>
+            <a href="shop.html?category=apparel">T-Shirts &amp; Apparel</a>
+            <span>/</span>
+            <strong style="color:#111;">Black T-shirt</strong>
+        </nav>
+    </div>
+</div>
+
+<main class="container">
+    <div class="product-detail-grid">
+        <!-- Left: Large Image Container -->
+        <div class="product-gallery-box">
+            <img src="assets/images/black-tshirt.jpg" alt="Black T-shirt" id="productMainImage">
+        </div>
+
+        <!-- Right: Summary & Order Configuration -->
+        <div class="product-summary-pane">
+            <span class="product-category-tag" style="margin-bottom:0.5rem; font-size:0.85rem;">T-Shirts &amp; Apparel</span>
+            <h1 class="product-title">Black T-shirt</h1>
+
+            <div class="product-meta-row">
+                <div class="rating-stars" aria-label="Rated 4.9 out of 5 stars"><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span><span class="star star-filled" aria-hidden="true">&#9733;</span></div>                <span style="font-size:0.88rem; color:#666;">(42 verified student reviews)</span>
+                
+                                    <span class="stock-pill stock-in">In Stock (33 left)</span>
+                            </div>
+
+            <div class="product-pricing">
+                <span class="price-current">₹499.00</span>
+                                    <span class="price-original" style="font-size:1.15rem;">₹799.00</span>
+                    <span style="background:var(--accent-red-subtle); color:var(--accent-red); font-size:0.82rem; font-weight:700; padding:0.2rem 0.5rem; border-radius:2px;">
+                        SAVE 38%
+                    </span>
+                            </div>
+
+            <div class="product-description-full">
+                <p>Classic relaxed fit 100% combed cotton black graphic t-shirt with signature campus mountain crest print. Pre-shrunk, breathable, and styled for lecture and workshop ease.</p>
+            </div>
+
+            <!-- Add to Cart Form -->
+                            <form action="cart-action.html" method="POST">
+                    <input type="hidden" name="csrf_token" value="bb00a79051864655c761580a487d006b65bec02e89f9cbd94a234bfe0673beaf">                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="product_id" value="1">
+
+                    <div class="cart-action-group">
+                        <div class="qty-control">
+                            <button type="button" class="qty-btn qty-dec" aria-label="Decrease quantity">−</button>
+                            <input type="number" name="quantity" class="qty-input" value="1" min="1" max="33" aria-label="Quantity">
+                            <button type="button" class="qty-btn qty-inc" aria-label="Increase quantity">+</button>
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="padding:0.9rem 2rem;">ADD TO CART</button>
+                    </div>
+                </form>
+            
+            <!-- Reassurance Checklist -->
+            <div style="background:var(--bg-subtle); padding:1.25rem 1.5rem; border-radius:var(--radius-sm); display:flex; flex-direction:column; gap:0.6rem; font-size:0.9rem; color:#444;">
+                <div style="display:flex; align-items:center; gap:0.6rem;">
+                    <span style="color:#10b981; font-weight:bold;">✓</span> Free 2-Hour Campus Hostel Delivery on orders above ₹500
+                </div>
+                <div style="display:flex; align-items:center; gap:0.6rem;">
+                    <span style="color:#10b981; font-weight:bold;">✓</span> 30-Day Hassle-free Exchange on defective or sizing issues
+                </div>
+                <div style="display:flex; align-items:center; gap:0.6rem;">
+                    <span style="color:#10b981; font-weight:bold;">✓</span> Cash on Delivery (COD) supported across university premises
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+            <section style="padding: 4rem 0; border-top: 1px solid var(--border-light); margin-top: 3rem;">
+            <h2 style="font-family:var(--font-display); font-size:1.8rem; margin-bottom:2rem; color:#111;">Related in T-Shirts &amp; Apparel</h2>
+            <div class="products-grid">
+                                    <article class="product-card">
+                        <div class="product-image-box">
+                            <a href="product.html?id=7">
+                                <img src="assets/images/hero-model.jpg" alt="Oversized Knit Sweater" loading="lazy">
+                            </a>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title"><a href="product.html?id=7">Oversized Knit Sweater</a></h3>
+                            <div class="product-pricing">
+                                <span class="price-current">₹1,199.00</span>
+                            </div>
+                            <span class="product-category-tag">T-Shirts &amp; Apparel</span>
+                            <a href="product.html?id=7" class="btn-add-cart" style="background:#111;">View Details</a>
+                        </div>
+                    </article>
+                            </div>
+        </section>
+    </main>
+
