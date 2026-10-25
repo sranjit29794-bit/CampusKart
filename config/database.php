@@ -2,15 +2,37 @@
 /**
  * CampusKart - Database Connection Configuration
  *
- * Uses PDO with Prepared Statements for secure, high-performance database access.
- * Reads environment variables with fallback to config array and safe SQLite fallback
- * to guarantee that the application can be previewed and evaluated in any environment.
+ * Primary: Supabase Cloud PostgreSQL (REST & RPC with Row Level Security)
+ * Fallback: MySQL PDO or Portable SQLite for local development / testing
  */
 
 declare(strict_types=1);
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+    @session_start();
+}
+
+require_once __DIR__ . '/supabase.php';
+
+// Automatically load .env if available
+$envFile = dirname(__DIR__) . '/.env';
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        $trimmed = trim($line);
+        if ($trimmed === '' || str_starts_with($trimmed, '#')) {
+            continue;
+        }
+        if (preg_match('/^([A-Z0-9_]+)=(.*)$/', $trimmed, $matches)) {
+            $key = $matches[1];
+            $val = trim($matches[2], " \t\n\r\0\x0B\"'");
+            if (getenv($key) === false) {
+                putenv("{$key}={$val}");
+                $_ENV[$key] = $val;
+                $_SERVER[$key] = $val;
+            }
+        }
+    }
 }
 
 // Load local configuration file if present
@@ -18,7 +40,7 @@ $localConfigFile = __DIR__ . '/config.php';
 $localConfig = file_exists($localConfigFile) ? require $localConfigFile : [];
 
 // Database Connection Parameters
-$dbDriver = getenv('DB_DRIVER') ?: ($localConfig['driver'] ?? 'mysql');
+$dbDriver = getenv('DB_DRIVER') ?: ($localConfig['driver'] ?? 'supabase');
 $dbHost   = getenv('DB_HOST')   ?: ($localConfig['host'] ?? '127.0.0.1');
 $dbPort   = getenv('DB_PORT')   ?: ($localConfig['port'] ?? '3306');
 $dbName   = getenv('DB_NAME')   ?: ($localConfig['database'] ?? 'campuskart');
@@ -26,7 +48,29 @@ $dbUser   = getenv('DB_USER')   ?: ($localConfig['username'] ?? 'root');
 $dbPass   = getenv('DB_PASS') !== false ? getenv('DB_PASS') : ($localConfig['password'] ?? '');
 
 /**
- * Returns a singleton PDO connection.
+ * Returns the singleton Supabase client if configured.
+ */
+function get_supabase_client(): ?SupabaseClient
+{
+    static $client = null;
+    if ($client !== null) {
+        return $client;
+    }
+
+    $supabaseUrl = getenv('NEXT_PUBLIC_SUPABASE_URL') ?: (getenv('SUPABASE_URL') ?: '');
+    $serviceRoleKey = getenv('SUPABASE_SERVICE_ROLE_KEY') ?: '';
+    $anonKey = getenv('NEXT_PUBLIC_SUPABASE_ANON_KEY') ?: (getenv('SUPABASE_ANON_KEY') ?: '');
+
+    if (!empty($supabaseUrl) && (!empty($serviceRoleKey) || !empty($anonKey))) {
+        $client = new SupabaseClient($supabaseUrl, $anonKey, $serviceRoleKey);
+        return $client;
+    }
+
+    return null;
+}
+
+/**
+ * Returns a singleton database connection (Supabase primary, with MySQL/SQLite fallback).
  *
  * @return PDO
  * @throws PDOException
@@ -41,21 +85,31 @@ function get_db_connection(): PDO
 
     global $dbDriver, $dbHost, $dbPort, $dbName, $dbUser, $dbPass;
 
+    // 1. Primary: Supabase PostgreSQL
+    $client = get_supabase_client();
+    if ($client !== null && $client->isConfigured()) {
+        try {
+            $pdo = new SupabasePDO($client);
+            return $pdo;
+        } catch (Throwable $e) {
+            error_log("Supabase initialization error, trying fallback: " . $e->getMessage());
+        }
+    }
+
     $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
     ];
 
-    // Attempt MySQL connection first
+    // 2. MySQL connection fallback
     if ($dbDriver === 'mysql') {
         try {
             $dsn = "mysql:host={$dbHost};port={$dbPort};dbname={$dbName};charset=utf8mb4";
             $pdo = new PDO($dsn, $dbUser, $dbPass, $options);
             return $pdo;
         } catch (PDOException $e) {
-            // If MySQL is not reachable or database not created yet, check if sqlite fallback is permitted
-            // Log notice and fallback gracefully to portable SQLite for development/lab examination
+            // Log notice and fallback gracefully to portable SQLite
             $sqlitePath = dirname(__DIR__) . '/database/campuskart.sqlite';
             try {
                 $pdo = new PDO("sqlite:" . $sqlitePath, null, null, $options);
@@ -63,13 +117,12 @@ function get_db_connection(): PDO
                 ensure_sqlite_schema($pdo);
                 return $pdo;
             } catch (Exception $sqliteErr) {
-                // If both fail, throw original MySQL exception
                 throw $e;
             }
         }
     }
 
-    // Direct SQLite driver if explicitly set
+    // 3. Direct SQLite fallback
     $sqlitePath = dirname(__DIR__) . '/database/campuskart.sqlite';
     $pdo = new PDO("sqlite:" . $sqlitePath, null, null, $options);
     $pdo->exec("PRAGMA foreign_keys = ON;");

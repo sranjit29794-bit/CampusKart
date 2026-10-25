@@ -17,11 +17,14 @@ echo "========================================================\n\n";
 
 try {
     $pdo = get_db_connection();
-    $driver = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
-    echo "✓ Successfully connected to database via PDO [Driver: {$driver}].\n";
+    $isSupabase = ($pdo instanceof SupabasePDO);
+    $driverName = $isSupabase ? 'supabase-postgresql' : $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+    echo "✓ Successfully connected to database [Engine: {$driverName}].\n";
 
     // Check table count
-    if ($driver === 'sqlite') {
+    if ($isSupabase) {
+        $tables = array_column($pdo->query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE' ORDER BY table_name")->fetchAll(), 'table_name');
+    } elseif ($driverName === 'sqlite') {
         $tables = $pdo->query("SELECT name FROM sqlite_master WHERE type='table'")->fetchAll(PDO::FETCH_COLUMN);
     } else {
         $tables = $pdo->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);

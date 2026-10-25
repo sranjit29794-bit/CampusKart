@@ -59,7 +59,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         try {
-            // Begin safe database transaction
+            $client = get_supabase_client();
+            if ($client !== null && $client->isConfigured()) {
+                // Execute atomic transactional checkout on Supabase PostgreSQL
+                $rpcItems = [];
+                foreach ($items as $item) {
+                    $rpcItems[] = [
+                        'product_id' => (int)$item['product_id'],
+                        'quantity'   => (int)$item['quantity'],
+                    ];
+                }
+
+                $finalDelivery = calculate_delivery_charge($cartSubtotal);
+                $orderNumber = generate_order_number();
+
+                $rpcResult = $client->rpc('place_order_transaction', [
+                    'p_order_number'    => $orderNumber,
+                    'p_user_id'         => $userId,
+                    'p_customer_name'   => $customerName,
+                    'p_email'           => $email,
+                    'p_phone'           => $phone,
+                    'p_address'         => $address,
+                    'p_city'            => $city,
+                    'p_state'           => $state,
+                    'p_pincode'         => $pincode,
+                    'p_delivery_charge' => $finalDelivery,
+                    'p_payment_method'  => 'Cash on Delivery',
+                    'p_items'           => $rpcItems,
+                ]);
+
+                if (!empty($rpcResult['success'])) {
+                    $orderId = (int)$rpcResult['order_id'];
+                    $_SESSION['cart'] = [];
+                    redirect("order-success.php?order_id={$orderId}&order_num=" . urlencode($orderNumber));
+                    exit;
+                } else {
+                    throw new Exception($rpcResult['message'] ?? 'Unable to complete checkout on database.');
+                }
+            }
+
+            // Fallback: Local PDO transaction
             $pdo->beginTransaction();
 
             // Re-verify inventory & lock/fetch current prices
